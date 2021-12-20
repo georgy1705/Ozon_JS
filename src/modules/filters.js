@@ -10,14 +10,26 @@ export const categoryFilter = (goods, value) => {
     })
 }
 
-export const priceFilter = (goods, value) => {
-    let minValue = value.id === 'min' ? value.value : 0
-    let maxValue = value.id === 'max' ? value.value : 50000
-
-    console.log(minValue, maxValue);
-
-
+export const priceFilter = (goods, min, max) => {
     return goods.filter(good => {
-        return minValue < good.price && good.price < maxValue
+        if (min === '' && max === '') {
+            return good
+        } else if (min !== '' && max !== '') {
+            return good.price > +min && good.price < +max
+        } else if (min !== '' && max === '') {
+            return good.price > +min
+        } else if (min === '' && max !== '') {
+            return good.price < +max
+        }
+    })
+}
+
+export const hotSaleFilter = (goods, value) => {
+    return goods.filter(good => {
+        if (value) {
+            return good.sale === true
+        } else {
+            return good
+        }
     })
 }
